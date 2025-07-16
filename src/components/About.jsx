@@ -3,7 +3,7 @@ import Card from "./Card";
 
 const About = () =>{
     return (
-        <div className="w-[80%] p-6 mx-auto">
+        <div className="w-[80%] p-7 mx-auto">
           <Card>
             <h2 className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
               About Jiseti
