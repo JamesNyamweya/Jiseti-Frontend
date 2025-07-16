@@ -8,9 +8,9 @@ const Header = () => {
         <div class="flex items-center">
           <a href="#" class="text-xl font-bold">
             <img
-              src=""
+              src="src/assets/Jiseti_logo.png"
               alt="Jiseti"
-              class="h-[80px] w-auto"
+              class="h-[30px] w-auto"
             />
           </a>
         </div>
@@ -18,27 +18,33 @@ const Header = () => {
         <nav class="hidden space-x-6 md:flex">
           <a
             href="#"
-            class="hover:text-gray-300 hover:bg-[#E5E7EB] px-3 py-2 rounded transition-colors duration-200"
+            class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
           >
             Home
           </a>
           <a
             href="#"
-            class="hover:text-gray-300 hover:bg-[#E5E7EB] px-3 py-2 rounded transition-colors duration-200"
+            class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
           >
-            About
+            About us
           </a>
           <a
             href="#"
-            class="hover:text-gray-300 hover:bg-[#E5E7EB] px-3 py-2 rounded transition-colors duration-200"
+            class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
           >
-            Services
+            How it works
           </a>
           <a
             href="#"
-            class="hover:text-gray-300 hover:bg-[#E5E7EB] px-3 py-2 rounded transition-colors duration-200"
+            class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
           >
-            Contact
+            Report Now
+          </a>
+          <a
+            href="#"
+            class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+          >
+            Login
           </a>
         </nav>
       </div>
