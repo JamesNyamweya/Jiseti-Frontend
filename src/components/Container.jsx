@@ -24,7 +24,7 @@ const Container = () => {
             government intervention. Together, we build a transparent,
             accountable future — one report at a time.
           </p>
-          <div className="mt-6 flex justify-center">
+          <div id="about_us" className="mt-6 flex justify-center">
             <Button color="bg-[#1F2937]" textColor="text-white">
               Report Now
             </Button>

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <>
       <header className="sticky top-0 z-50 bg-[#1F2937] font-sans text-white">
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3 scroll-smooth">
           <div className="flex items-center">
             <a href="#" className="text-xl font-bold">
               <img
@@ -20,24 +20,24 @@ const Header = () => {
           <nav className="hidden space-x-6 md:flex">
             <a
               href="#"
-              class="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
             >
               Home
             </a>
             <a
-              href="#"
+              href="#about_us"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
             >
               About us
             </a>
             <a
-              href="#"
+              href="#works"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
             >
               How it works
             </a>
             <a
-              href="#"
+              href="#report_now"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
             >
               Report Now

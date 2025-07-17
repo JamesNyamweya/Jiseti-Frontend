@@ -3,8 +3,8 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
-    <Toaster position="top-center" />
-    <Landing />
+      <Toaster position="top-center" />
+      <Landing />
     </>
   );
 }

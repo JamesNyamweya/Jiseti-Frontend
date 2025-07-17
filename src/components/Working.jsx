@@ -6,7 +6,7 @@ const Working = () => {
     <div className="bg-[#F9FAFB] flex flex-col md:flex-row items-center justify-center p-10 m-6 gap-10 rounded-xl">
       <div className="w-full md:w-1/2">
         <Card>
-          <h2 className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
+          <h2 id="works"className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
             How Jiseti Works.
           </h2>
           <div class="space-y-6 text-base font-roboto leading-relaxed">
