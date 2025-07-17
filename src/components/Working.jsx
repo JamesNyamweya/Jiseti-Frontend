@@ -1,12 +1,25 @@
 import React from "react";
 import Card from "./Card";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Working = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash) {
+      const target = document.querySelector(hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <div className="bg-[#F9FAFB] flex flex-col md:flex-row items-center justify-center p-10 m-6 gap-10 rounded-xl">
       <div className="w-full md:w-1/2">
         <Card>
-          <h2 className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
+          <h2 id="works"className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
             How Jiseti Works.
           </h2>
           <div class="space-y-6 text-base font-roboto leading-relaxed">

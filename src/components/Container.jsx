@@ -1,8 +1,22 @@
 import React from "react";
 import Button from "./Button";
 import Card from "./Card";
+import { Link } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Container = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash) {
+      const target = document.querySelector(hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <div className="bg-[#F9FAFB] flex flex-col md:flex-row items-center justify-center p-10 m-6 gap-10 rounded-xl">
       <div className="flex-shrink-0">
@@ -24,10 +38,12 @@ const Container = () => {
             government intervention. Together, we build a transparent,
             accountable future — one report at a time.
           </p>
-          <div className="mt-6 flex justify-center">
-            <Button color="bg-[#1F2937]" textColor="text-white">
-              Report Now
-            </Button>
+          <div id="about_us" className="mt-6 flex justify-center">
+            <Link to="/user_dash">
+              <Button color="bg-[#1F2937]" textColor="text-white">
+                Report Now
+              </Button>
+            </Link>
           </div>
         </Card>
       </div>
