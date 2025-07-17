@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./Button";
 import Card from "./Card";
+import { Link } from 'react-router-dom'
 
 const Container = () => {
   return (
@@ -25,9 +26,11 @@ const Container = () => {
             accountable future — one report at a time.
           </p>
           <div id="about_us" className="mt-6 flex justify-center">
-            <Button color="bg-[#1F2937]" textColor="text-white">
-              Report Now
-            </Button>
+            <Link to="/user_dash">
+              <Button color="bg-[#1F2937]" textColor="text-white">
+                Report Now
+              </Button>
+            </Link>
           </div>
         </Card>
       </div>

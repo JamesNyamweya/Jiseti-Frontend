@@ -7,9 +7,9 @@ import Footer from "../components/Footer";
 const MainContent = () => (
   <div>
     <h1 className="text-2xl font-semibold mb-4">
-      Welcome to the Admin Dashboard
+      Welcome to the User Dashboard
     </h1>
-    <p>Admin Powers are here.</p>
+    <p>This is where the reports will go.</p>
   </div>
 );
 
