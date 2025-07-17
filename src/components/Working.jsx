@@ -1,7 +1,20 @@
 import React from "react";
 import Card from "./Card";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Working = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash) {
+      const target = document.querySelector(hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <div className="bg-[#F9FAFB] flex flex-col md:flex-row items-center justify-center p-10 m-6 gap-10 rounded-xl">
       <div className="w-full md:w-1/2">

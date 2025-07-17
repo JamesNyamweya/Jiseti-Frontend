@@ -1,7 +1,19 @@
 import React from "react";
 import Card from "./Card";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const About = () =>{
+    const location = useLocation();
+    useEffect(() => {
+      const hash = location.hash;
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, [location]);
     return (
         <div className="w-[80%] p-7 mx-auto">
           <Card>
