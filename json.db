@@ -1,0 +1,114 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Jerald Nyaga",
+      "email": "jerald@example.com",
+      "contact": "+254701111111",
+      "password": "password123"
+    },
+    {
+      "id": 2,
+      "name": "Faith Muthoni",
+      "email": "faith@example.com",
+      "contact": "+254702222222",
+      "password": "faithpass456"
+    },
+    {
+      "id": 3,
+      "name": "Kevin Otieno",
+      "email": "kevin@example.com",
+      "contact": "+254703333333",
+      "password": "kevinsecure789"
+    },
+    {
+      "id": 4,
+      "name": "Amina Ahmed",
+      "email": "amina@example.com",
+      "contact": "+254704444444",
+      "password": "amina321"
+    }
+  ],
+  "incidents": [
+    {
+      "id": 1,
+      "type": "Corruption",
+      "title": "Bribery at Police Checkpoint",
+      "status": "Under investigation",
+      "geolocation": { "lat": -1.2921, "long": 36.8219 },
+      "dateCreated": "12 March, 2025"
+    },
+    {
+      "id": 2,
+      "type": "Intervention",
+      "title": "Unfinished Road in Kibera",
+      "status": "Under investigation",
+      "geolocation": { "lat": -1.3133, "long": 36.7831 },
+      "dateCreated": "25 February, 2025"
+    },
+    {
+      "id": 3,
+      "type": "Corruption",
+      "title": "Illegal Tender at Ministry of Health",
+      "status": "Resolved",
+      "geolocation": { "lat": -1.2921, "long": 36.8219 },
+      "dateCreated": "01 January, 2025"
+    },
+    {
+      "id": 4,
+      "type": "Corruption",
+      "title": "Ghost Workers in County Payroll",
+      "status": "Rejected",
+      "geolocation": { "lat": -0.0917, "long": 34.7679 },
+      "dateCreated": "10 February, 2025"
+    },
+    {
+      "id": 5,
+      "type": "Intervention",
+      "title": "Lack of Clean Water in Isiolo",
+      "status": "Under investigation",
+      "geolocation": { "lat": 0.3526, "long": 37.5822 },
+      "dateCreated": "18 March, 2025"
+    },
+    {
+      "id": 6,
+      "type": "Corruption",
+      "title": "Bribery at City Council",
+      "status": "Under investigation",
+      "geolocation": { "lat": -1.2921, "long": 36.8219 },
+      "dateCreated": "09 April, 2025"
+    },
+    {
+      "id": 7,
+      "type": "Intervention",
+      "title": "Collapsed Bridge in Murang’a",
+      "status": "Resolved",
+      "geolocation": { "lat": -0.7187, "long": 37.1475 },
+      "dateCreated": "23 March, 2025"
+    },
+    {
+      "id": 8,
+      "type": "Corruption",
+      "title": "Misappropriation of Bursary Funds",
+      "status": "Under investigation",
+      "geolocation": { "lat": -1.3733, "long": 36.8345 },
+      "dateCreated": "28 February, 2025"
+    },
+    {
+      "id": 9,
+      "type": "Intervention",
+      "title": "Overcrowding in Local Health Clinic",
+      "status": "Rejected",
+      "geolocation": { "lat": -0.4259, "long": 36.9476 },
+      "dateCreated": "04 March, 2025"
+    },
+    {
+      "id": 10,
+      "type": "Corruption",
+      "title": "Election Malpractice Reported in Kisumu",
+      "status": "Under investigation",
+      "geolocation": { "lat": -0.1022, "long": 34.7617 },
+      "dateCreated": "15 March, 2025"
+    }
+  ]
+}
