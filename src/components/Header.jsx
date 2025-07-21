@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import AuthModalController from "./AuthModalController";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-
 
 const Header = () => {
   const location = useLocation();
   const [showLogin, setShowLogin] = useState(false);
+
   useEffect(() => {
     if (location.state?.scrollToTop) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [location]);
+
   return (
     <>
       <header
@@ -32,42 +32,56 @@ const Header = () => {
           <nav className="hidden space-x-6 md:flex">
             <Link
               to="/"
-              state={{ scrollToTop: true }}
-              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Home
             </Link>
 
-            <Link
-              to="/#about_us"
-              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+            <a
+              href="#about_us"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               About us
-            </Link>
+            </a>
 
-            <Link
-              to="/#works"
-              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+            <a
+              href="#works"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               How it works
-            </Link>
+            </a>
 
             <Link
               to="/user_dash"
-              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Report Now
             </Link>
 
+            <Link
+              to="/report_form"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
+            >
+              Report Form
+            </Link>
+
+            <Link
+              to="/admin_dashboard"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
+            >
+              Admin
+            </Link>
+
             <button
               onClick={() => setShowLogin(true)}
-              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded transition-colors duration-200"
+              className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Login
             </button>
           </nav>
         </div>
       </header>
+
       {showLogin && <AuthModalController onClose={() => setShowLogin(false)} />}
     </>
   );
