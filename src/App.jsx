@@ -6,6 +6,8 @@ import Landing from "./pages/Landing";
 import UserDash from "./pages/UserDash";
 import ReportForm from "./pages/ReportForm";
 import AdminDashboard from "./pages/AdminDashboard";
+import CreateRecord from "./components/CreateRecord";
+import EditRecord from "./components/EditRecord";
 
 function App() {
   return (
