@@ -23,6 +23,7 @@ Jiseti is a civic-tech platform built to fight corruption and promote transparen
 ## Authors
 
 **Jiseti** has been authored and written by:
+
 1. **Irene Peter**
 2. **Rahma Mohammed**
 3. **Collins Kiprono**
