@@ -1,12 +1,31 @@
-# React + Vite
+# Jiseti
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Jiseti is a civic-tech platform built to fight corruption and promote transparency across Africa. It empowers citizens to anonymously report corrupt practices and highlight areas needing government action. By bridging the gap between the public and oversight institutions, Jiseti aims to drive accountability and inspire positive change.
 
-Currently, two official plugins are available:
+# Jiseti Frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Jiseti** is a personal and professional record management platform built with a user-centric design. This is the frontend repository, developed using **React**, **Redux Toolkit**, and **Material UI**, and is fully integrated with a Flask/PostgreSQL backend.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- User authentication & role-based dashboards
+- Record creation, viewing, editing, and deletion
+- Interactive dashboards for Admins and Users
+- Client-side routing using React Router
+- Redux Toolkit for state management
+- Material UI + Tailwind CSS for responsive UI
+- Backend API integration (Flask + PostgreSQL)
+
+---
+
+## Authors
+
+**Jiseti** has been authored and written by:
+
+1. **Irene Peter**
+2. **Rahma Mohammed**
+3. **Collins Kiprono**
+4. **Jerald Nyaga**
+5. **James Nyamweya**
