@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import ModalWrapper from "../components/ModalWrapper";
 
-export default function LoginForm({ imagePath, onClose, onSwitch }) {
+export default function LoginForm({ onClose, onSwitch }) {
   return (
     <ModalWrapper
       title="Login to Jiseti"

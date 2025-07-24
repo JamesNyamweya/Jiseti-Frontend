@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import ModalWrapper from "../components/ModalWrapper";
 
-export default function SignupForm({ imagePath, onClose, onSwitch }) {
+export default function SignupForm({ onClose, onSwitch }) {
   return (
     <ModalWrapper
       title="Create Account"

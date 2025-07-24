@@ -2,16 +2,9 @@ import React from "react";
 import Header from "../components/Header";
 import SideBar from "../components/User_SideBar";
 import Footer from "../components/Footer";
+import Dashboard from "../components/UserDashTable"
 
 // Replace this with your actual main content component
-const MainContent = () => (
-  <div>
-    <h1 className="text-2xl font-semibold mb-4">
-      Welcome to the User Dashboard
-    </h1>
-    <p>This is where the reports will go.</p>
-  </div>
-);
 
 const UserDash = () => {
   return (
@@ -28,7 +21,7 @@ const UserDash = () => {
 
       {/* Main Content */}
       <main className="row-start-2 row-end-3 col-start-2 col-end-3 p-6 overflow-auto">
-        <MainContent />
+        <Dashboard />
       </main>
 
       {/* Footer */}

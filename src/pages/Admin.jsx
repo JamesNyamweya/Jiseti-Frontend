@@ -13,6 +13,7 @@ const MainContent = () => (
   </div>
 );
 
+// Admin dashoard
 const UserDash = () => {
   return (
     <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto] min-h-screen bg-gray-50">
