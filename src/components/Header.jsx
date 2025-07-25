@@ -37,19 +37,19 @@ const Header = () => {
               Home
             </Link>
 
-            <a
-              href="#about_us"
+            <Link
+              to="/#about_us"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               About us
-            </a>
+            </Link>
 
-            <a
-              href="#works"
+            <Link
+              to="/#works"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               How it works
-            </a>
+            </Link>
 
             <Link
               to="/user_dash"
@@ -58,7 +58,7 @@ const Header = () => {
               Report Now
             </Link>
 
-            <Link
+            {/* <Link
               to="/report_form"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
@@ -70,7 +70,7 @@ const Header = () => {
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Admin
-            </Link>
+            </Link> */}
 
             <button
               onClick={() => setShowLogin(true)}
@@ -85,6 +85,7 @@ const Header = () => {
       {showLogin && <AuthModalController onClose={() => setShowLogin(false)} />}
     </>
   );
+
 };
 
 export default Header;
