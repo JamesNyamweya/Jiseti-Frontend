@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import toast from "react-hot-toast";
 import ModalWrapper from "../components/ModalWrapper";
 
@@ -11,19 +12,45 @@ export default function SignupForm({ onClose, onSwitch }) {
       onClose={onClose}
     >
       <Formik
-        initialValues={{ name: "", email: "", contact_info: "", password: "" }}
+        initialValues={{ name: "", username: "", email: "", password: "" }}
         validationSchema={Yup.object({
           name: Yup.string().required("Required"),
+          username: Yup.string().required("Required"),
           email: Yup.string().email("Invalid email").required("Required"),
-          contact_info: Yup.string().required("Required"),
           password: Yup.string()
             .min(6, "Min 6 characters")
             .required("Required"),
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          toast.success("Account created!");
-          console.log(values);
-          setSubmitting(false);
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            const nameParts = values.name.trim().split(" ");
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(" ") || "_";
+
+            const payload = {
+              username: values.username,
+              first_name: firstName,
+              last_name: lastName,
+              email: values.email,
+              password: values.password,
+            };
+
+            const res = await axios.post(
+              "http://127.0.0.1:5000/signup",
+              payload
+            );
+            toast.success("Account created successfully!");
+            console.log(res.data);
+
+            onClose();
+          } catch (error) {
+            toast.error(
+              error.response?.data?.message || "Signup failed. Try again."
+            );
+            console.error(error);
+          } finally {
+            setSubmitting(false);
+          }
         }}
       >
         {({ isSubmitting }) => (
@@ -31,11 +58,23 @@ export default function SignupForm({ onClose, onSwitch }) {
             <Field
               name="name"
               type="text"
-              placeholder="Name"
+              placeholder="Full Name"
               className="w-full p-2 border rounded"
             />
             <ErrorMessage
               name="name"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+
+            <Field
+              name="username"
+              type="text"
+              placeholder="Username"
+              className="w-full p-2 border rounded"
+            />
+            <ErrorMessage
+              name="username"
               component="div"
               className="text-red-500 text-sm"
             />
@@ -48,18 +87,6 @@ export default function SignupForm({ onClose, onSwitch }) {
             />
             <ErrorMessage
               name="email"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-
-            <Field
-              name="contact_info"
-              type="text"
-              placeholder="Contact Info"
-              className="w-full p-2 border rounded"
-            />
-            <ErrorMessage
-              name="contact_info"
               component="div"
               className="text-red-500 text-sm"
             />
