@@ -22,7 +22,7 @@ const Working = () => {
           <h2 id="works"className="text-[40px] leading-[52px] tracking-[0.4px] font-semibold text-center mb-4">
             How Jiseti Works.
           </h2>
-          <div class="space-y-6 text-base font-roboto leading-relaxed">
+          <div className="space-y-6 text-base font-roboto leading-relaxed">
             <p className="text-[18px] leading-[28px]">
               <strong>1. Create an Account</strong> – Sign up securely.
             </p>

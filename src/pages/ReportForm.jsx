@@ -33,7 +33,7 @@ const ReportForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const [formType, setFormType] = useState("Red Flag");
+  const [formType, setFormType] = useState("Red-Flag");
   const [useManualLocation, setUseManualLocation] = useState(false);
   const [formData, setFormData] = useState({
     category: "",
@@ -43,8 +43,8 @@ const ReportForm = () => {
     priority: "Low",
     duration: "",
     media: null,
-    type: "Red Flag",
-    status: "draft",
+    type: "Red-Flag",
+    status: "pending",
   });
 
   const [showLocationPopup, setShowLocationPopup] = useState(false);
@@ -97,13 +97,26 @@ const ReportForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const recordToCreate = {
-      ...formData,
-      user_id: user.id,
-      type: formType,
-    };
-    await dispatch(createRecord(recordToCreate)).unwrap();
-    navigate("/user_dash");
+    const payload = new FormData();
+    payload.append(
+      "type",
+      formType === "Red-Flag" ? "Red-Flag" : "Intervention"
+    );
+    payload.append("title", formData.title);
+    payload.append("description", formData.description);
+    payload.append("latitude", formData.location.latitude);
+    payload.append("longitude", formData.location.longitude);
+
+    if (formData.media) {
+      payload.append("images", formData.media);
+    }
+
+    try {
+      await dispatch(createRecord(payload)).unwrap();
+      navigate("/user_dash");
+    } catch (err) {
+      console.error("Submit failed:", err);
+    }
   };
 
   return (
@@ -124,15 +137,15 @@ const ReportForm = () => {
           <div className="bg-gradient-to-r from-slate-100 to-slate-50 p-6 border-b border-slate-200">
             <div className="flex justify-center space-x-4">
               <button
-                onClick={() => setFormType("Red Flag")}
+                onClick={() => setFormType("Red-Flag")}
                 className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  formType === "Red Flag"
+                  formType === "Red-Flag"
                     ? "bg-rose-100 text-rose-700 shadow-md ring-2 ring-rose-200"
                     : "text-slate-600 hover:bg-white hover:shadow-sm"
                 }`}
               >
                 <span>🚩</span>
-                <span>Red Flag</span>
+                <span>Red-Flag</span>
               </button>
               <button
                 onClick={() => setFormType("Intervention")}
@@ -178,7 +191,7 @@ const ReportForm = () => {
                 required
               >
                 <option value="">Select Category</option>
-                {(formType === "Red Flag"
+                {(formType === "Red-Flag"
                   ? red_flag_titles
                   : intervention_titles
                 ).map((cat) => (
@@ -197,7 +210,7 @@ const ReportForm = () => {
               <textarea
                 name="description"
                 placeholder={
-                  formType === "Red Flag"
+                  formType === "Red-Flag"
                     ? "Provide detailed information about the corrupt incident"
                     : "Describe the issue and its impact on the community"
                 }
@@ -208,35 +221,6 @@ const ReportForm = () => {
                 required
               />
             </div>
-
-            {/* Priority only for Intervention */}
-            {formType === "Intervention" && (
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
-                  Priority Level
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {["Low", "Medium", "High", "Critical"].map((level) => (
-                    <label
-                      key={level}
-                      className="flex items-center space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors duration-200"
-                    >
-                      <input
-                        type="radio"
-                        name="priority"
-                        value={level}
-                        checked={formData.priority === level}
-                        onChange={handleChange}
-                        className="text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="font-medium text-slate-700">
-                        {level}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Location */}
             <div>
@@ -305,31 +289,8 @@ const ReportForm = () => {
               </div>
             </div>
 
-            {/* Duration only for Intervention */}
-            {formType === "Intervention" && (
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Duration of Issue
-                </label>
-                <input
-                  name="duration"
-                  placeholder="How long has this issue persisted?"
-                  className="w-full border border-slate-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-slate-50/50"
-                  onChange={handleChange}
-                  value={formData.duration}
-                />
-              </div>
-            )}
-
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-slate-200">
-              <button
-                type="button"
-                onClick={() => alert("Saved as draft")}
-                className="flex-1 bg-amber-100 text-amber-700 px-6 py-3 rounded-xl font-medium hover:bg-amber-200 transition-colors duration-200 shadow-sm"
-              >
-                💾 Save as Draft
-              </button>
               <button
                 type="button"
                 onClick={() => navigate(-1)}

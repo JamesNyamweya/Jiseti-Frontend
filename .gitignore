@@ -26,3 +26,4 @@ eslint.config.js
 *.sw?
 
 package-lock.json
+src/axios.js

@@ -2,8 +2,39 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import ModalWrapper from "../components/ModalWrapper";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../features/authSlice";
 
-export default function LoginForm({ imagePath, onClose, onSwitch }) {
+export default function LoginForm({ onClose, onSwitch }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = async (values, setSubmitting) => {
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/login", values);
+
+      const { access_token, user } = response.data;
+
+      dispatch(loginSuccess({ access_token, user }));
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      toast.success("Login successful!");
+
+      // Close modal and navigate
+      onClose?.();
+      navigate("/user_dash");
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <ModalWrapper
       title="Login to Jiseti"
@@ -17,9 +48,7 @@ export default function LoginForm({ imagePath, onClose, onSwitch }) {
           password: Yup.string().required("Required"),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          toast.success("Logged in!");
-          console.log(values);
-          setSubmitting(false);
+          handleLogin(values, setSubmitting);
         }}
       >
         {({ isSubmitting }) => (
@@ -53,7 +82,7 @@ export default function LoginForm({ imagePath, onClose, onSwitch }) {
               disabled={isSubmitting}
               className="w-full bg-blue-600 text-white py-2 rounded"
             >
-              Login
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
 
             <p className="text-sm text-center mt-2">

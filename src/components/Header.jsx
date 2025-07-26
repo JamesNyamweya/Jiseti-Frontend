@@ -3,53 +3,53 @@ import { Link, useLocation } from "react-router-dom";
 import AuthModalController from "./AuthModalController";
 
 const Header = () => {
-  const location = useLocation();
+
   const [showLogin, setShowLogin] = useState(false);
 
-  useEffect(() => {
-    if (location.state?.scrollToTop) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [location]);
 
   return (
     <>
       <header
-        id="home"
         className="sticky top-0 z-50 bg-[#1F2937] font-sans text-white"
       >
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3 scroll-smooth">
           <div className="flex items-center">
-            <a href="#" className="text-xl font-bold">
+            <Link to="/" className="text-xl font-bold">
               <img
                 src="src/assets/Jiseti_logo.png"
                 alt="Jiseti"
                 className="h-[30px] w-auto"
               />
-            </a>
+            </Link>
           </div>
 
           <nav className="hidden space-x-6 md:flex">
             <Link
               to="/"
+              onClick={() => {
+                setTimeout(() => {
+                  const el = document.getElementById("home");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }, 0);
+              }}
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Home
             </Link>
 
-            <a
-              href="#about_us"
+            <Link
+              to="/#about_us"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               About us
-            </a>
+            </Link>
 
-            <a
-              href="#works"
+            <Link
+              to="/#works"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               How it works
-            </a>
+            </Link>
 
             <Link
               to="/user_dash"
@@ -58,7 +58,7 @@ const Header = () => {
               Report Now
             </Link>
 
-            <Link
+            {/* <Link
               to="/report_form"
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
@@ -70,7 +70,7 @@ const Header = () => {
               className="hover:text-gray-300 hover:bg-[#6B7280] px-3 py-2 rounded"
             >
               Admin
-            </Link>
+            </Link> */}
 
             <button
               onClick={() => setShowLogin(true)}
@@ -85,6 +85,8 @@ const Header = () => {
       {showLogin && <AuthModalController onClose={() => setShowLogin(false)} />}
     </>
   );
+
 };
+
 
 export default Header;
