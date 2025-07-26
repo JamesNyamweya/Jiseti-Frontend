@@ -34,7 +34,7 @@ export const createRecord = createAsyncThunk(
   }
 );
 
-// Update existing record
+
 export const updateRecord = createAsyncThunk(
   "records/updateRecord",
   async ({ id, updatedData }) => {
