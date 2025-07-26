@@ -8,6 +8,7 @@ import UserDash from "./pages/UserDash";
 import ReportForm from "./pages/ReportForm";
 import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./components/UserDashTable";
+import Logout from "./pages/Logout"
 // import CreateRecord from "./components/CreateRecord";
 // import EditRecord from "./components/EditRecord";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dash" element={<Dashboard />}/>
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </Router>
   );

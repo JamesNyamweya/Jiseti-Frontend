@@ -4,6 +4,9 @@ import SideBar from "../components/User_SideBar";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserRecords } from "../features/recordSlice";
+import { deleteRecord, updateRecord } from "../features/recordSlice";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const UserDash = () => {
   const dispatch = useDispatch();
@@ -11,7 +14,42 @@ const UserDash = () => {
   const records = useSelector((state) => state.records.data);
   const loading = useSelector((state) => state.records.loading);
   const error = useSelector((state) => state.records.error);
+  const navigate = useNavigate();
 
+const handleDelete = (id) => {
+  toast(
+    (t) => (
+      <span>
+        Are you sure you want to delete this record?
+        <div className="mt-2 flex gap-3">
+          <button
+            onClick={() => {
+              dispatch(deleteRecord(id));
+              toast.dismiss(t.id);
+              toast.success("Record deleted successfully");
+            }}
+            className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="bg-gray-300 text-gray-800 px-3 py-1 rounded text-sm"
+          >
+            Cancel
+          </button>
+        </div>
+      </span>
+    ),
+    { duration: 6000 }
+  );
+};
+
+
+  // Come back here to ensure that the fields that I can edit are specified
+  const handleEdit = (record) => {
+    navigate("/report", { state: { record } });
+  };
   useEffect(() => {
     if (user?.id) {
       dispatch(fetchUserRecords(user.id));
@@ -92,10 +130,10 @@ const UserDash = () => {
                   <td className="px-4 py-2 border text-center">
                     {record.status === "pending" && (
                       <>
-                        <button className="text-blue-600 hover:underline mr-2">
+                        <button onClick={() => handleEdit(record)} className="text-blue-600 hover:underline mr-2">
                           Edit
                         </button>
-                        <button className="text-red-600 hover:underline">
+                        <button onClick={()=> handleDelete(record.id)} className="text-red-600 hover:underline">
                           Delete
                         </button>
                       </>

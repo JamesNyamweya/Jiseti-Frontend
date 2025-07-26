@@ -43,38 +43,27 @@ export const deleteRecord = createAsyncThunk(
 );
 
 
-// export const updateRecord = createAsyncThunk(
-//   "records/updateRecord",
-//   async ({ id, updatedData }) => {
-//     const response = await api.patch(
-//       `/records/${id}`,
-//       updatedData,
-//       authHeaders()
-//     );
-//     return response.data;
-//   }
-// );
 
 export const updateRecord = createAsyncThunk(
   "records/updateRecord",
-  async ({ id, updatedData }) => {
-    const isFormData = updatedData instanceof FormData;
+  async ({ id, updatedData }, { rejectWithValue }) => {
+    try {
+      const isFormData = updatedData instanceof FormData;
 
-    const response = await api.patch(
-      `/records/${id}`,
-      updatedData,
-      isFormData
-        ? {
-          headers: {
-            ...authHeaders().headers,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-        : authHeaders()
-    );
-    return response.data;
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      };
+
+      const response = await api.put(`/records/${id}`, updatedData, { headers });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Update failed");
+    }
   }
+
 );
+
 
 
 const recordSlice = createSlice({
