@@ -34,18 +34,48 @@ export const createRecord = createAsyncThunk(
   }
 );
 
+export const deleteRecord = createAsyncThunk(
+  "records/deleteRecord",
+  async (id) => {
+    await api.delete(`/records/${id}`, authHeaders());
+    return id;
+  }
+);
+
+
+// export const updateRecord = createAsyncThunk(
+//   "records/updateRecord",
+//   async ({ id, updatedData }) => {
+//     const response = await api.patch(
+//       `/records/${id}`,
+//       updatedData,
+//       authHeaders()
+//     );
+//     return response.data;
+//   }
+// );
 
 export const updateRecord = createAsyncThunk(
   "records/updateRecord",
   async ({ id, updatedData }) => {
-    const response = await api.put(
+    const isFormData = updatedData instanceof FormData;
+
+    const response = await api.patch(
       `/records/${id}`,
       updatedData,
-      authHeaders()
+      isFormData
+        ? {
+          headers: {
+            ...authHeaders().headers,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        : authHeaders()
     );
     return response.data;
   }
 );
+
 
 const recordSlice = createSlice({
   name: "records",
@@ -73,6 +103,11 @@ const recordSlice = createSlice({
       // Create
       .addCase(createRecord.fulfilled, (state, action) => {
         state.data.push(action.payload);
+      })
+
+      // Delete
+      .addCase(deleteRecord.fulfilled, (state, action) => {
+        state.data = state.data.filter((record) => record.id !== action.payload);
       })
 
       // Update

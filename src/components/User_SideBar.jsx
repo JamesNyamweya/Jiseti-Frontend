@@ -14,7 +14,7 @@ export default function SideBar() {
     { label: "My Records", icon: "📄", to:"/"},
     { label: "New Report", icon: "➕", to:"/report"},
     { label: "Profile", icon: "👤", to:"/"},
-    { label: "Logout", icon: "🚪", to:"/"},
+    { label: "Logout", icon: "🚪", to:"/logout"},
   ];
 
   return (
