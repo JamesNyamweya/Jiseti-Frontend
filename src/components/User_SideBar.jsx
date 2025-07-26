@@ -5,16 +5,16 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
+import { Link } from "react-router-dom"
 const drawerWidth = 200;
 
 export default function SideBar() {
   const menuItems = [
-    { label: "Dashboard", icon: "🏠" },
-    { label: "My Records", icon: "📄" },
-    { label: "New Report", icon: "➕" },
-    { label: "Profile", icon: "👤" },
-    { label: "Logout", icon: "🚪" },
+    { label: "Dashboard", icon: "🏠", to:"/" },
+    { label: "My Records", icon: "📄", to:"/"},
+    { label: "New Report", icon: "➕", to:"/report"},
+    { label: "Profile", icon: "👤", to:"/"},
+    { label: "Logout", icon: "🚪", to:"/"},
   ];
 
   return (
@@ -37,7 +37,7 @@ export default function SideBar() {
       <List>
         {menuItems.map((item) => (
           <ListItem key={item.label} disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to={item.to}>
               <span
                 style={{
                   fontSize: "1.2rem",
