@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllRecords, patchRecordStatus } from "../features/recordSlice";
+import EditStatusForm from "./EditStatusForm";
+import { toast } from "react-hot-toast";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const { data: records, loading } = useSelector((state) => state.records);
 
+  const [selectedRecord, setSelectedRecord] = useState(null);
+
   useEffect(() => {
     dispatch(fetchAllRecords());
   }, [dispatch]);
 
-  const handleStatus = async (record) => {
-    const newStatus = prompt("Enter new status:", record.status);
-    if (
-      newStatus &&
-      ["pending", "under investigation", "resolved", "rejected"].includes(
-        newStatus
-      )
-    ) {
+  const handleStatusSubmit = async (values) => {
+    try {
       await dispatch(
-        patchRecordStatus({ id: record.id, status: newStatus })
+        patchRecordStatus({ id: selectedRecord.id, status: values.status })
       ).unwrap();
-    } else {
-      alert("Invalid or no status entered.");
+      toast.success("Status updated successfully");
+      setSelectedRecord(null); // close modal
+    } catch (err) {
+      toast.error("Failed to update status");
     }
   };
 
   const allRecords = records;
+
   return (
     <main className="row-start-2 row-end-3 col-start-2 col-end-3 overflow-auto">
+
+
       <h1 className="text-2xl font-semibold mb-6">
         Welcome to the Admin Dashboard
       </h1>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white p-4 rounded shadow text-center">
           <h2 className="text-lg font-bold text-gray-700">Total</h2>
@@ -78,15 +82,13 @@ const AdminDashboard = () => {
                 <td className="px-4 py-2 border">{record.status}</td>
                 <td className="px-4 py-2 border">{record.description}</td>
                 <td className="px-4 py-2 border text-center">
-                  {record.status != "resolved" && (
-                    <>
-                      <button
-                        onClick={() => handleStatus(record)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded"
-                      >
-                        Edit Status
-                      </button>
-                    </>
+                  {record.status !== "resolved" && (
+                    <button
+                      onClick={() => setSelectedRecord(record)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded"
+                    >
+                      Edit Status
+                    </button>
                   )}
                 </td>
               </tr>
@@ -94,6 +96,14 @@ const AdminDashboard = () => {
           </tbody>
         </table>
       </div>
+
+      {selectedRecord && (
+        <EditStatusForm
+          currentStatus={selectedRecord.status}
+          onSubmit={handleStatusSubmit}
+          onClose={() => setSelectedRecord(null)}
+        />
+      )}
     </main>
   );
 };

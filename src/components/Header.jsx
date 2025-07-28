@@ -24,17 +24,28 @@ const Header = () => {
               Home
             </Link>
 
-            <Link to="/#about_us" className="hover:text-gray-300 px-3 py-2 rounded">
+            <Link
+              to="/#about_us"
+              className="hover:text-gray-300 px-3 py-2 rounded"
+            >
               About us
             </Link>
 
-            <Link to="/#works" className="hover:text-gray-300 px-3 py-2 rounded">
+            <Link
+              to="/#works"
+              className="hover:text-gray-300 px-3 py-2 rounded"
+            >
               How it works
             </Link>
 
-            <Link to="/user_dash" className="hover:text-gray-300 px-3 py-2 rounded">
-              Report Now
-            </Link>
+            {!user && (
+              <Link
+                to="/user_dash"
+                className="hover:text-gray-300 px-3 py-2 rounded"
+              >
+                Report Now
+              </Link>
+            )}
 
             {user ? (
               <Link
