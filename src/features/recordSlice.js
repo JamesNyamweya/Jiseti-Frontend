@@ -107,8 +107,56 @@ const recordSlice = createSlice({
         if (index !== -1) {
           state.data[index] = action.payload;
         }
+      })
+      // Admin - Fetch all
+      .addCase(fetchAllRecords.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+
+      // Admin - Patch status
+      .addCase(patchRecordStatus.fulfilled, (state, action) => {
+        const index = state.data.findIndex(
+          (record) => record.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.data[index] = {
+            ...state.data[index],
+            ...action.payload,
+          };
+        }
       });
   },
 });
+
+
+export const fetchAllRecords = createAsyncThunk(
+  "records/fetchAllRecords",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/admin/records", authHeaders());
+      return response.data.records;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Fetch failed");
+    }
+  }
+);
+
+
+export const patchRecordStatus = createAsyncThunk(
+  "records/patchRecordStatus",
+  async ({ id, status }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(
+        `/admin/records/${id}`,
+        { status },
+        authHeaders()
+      );
+      return response.data.record;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Status update failed");
+    }
+  }
+);
+
 
 export default recordSlice.reducer;
