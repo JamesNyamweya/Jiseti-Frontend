@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import SideBar from "../components/Admin_SideBar";
 import Footer from "../components/Footer";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "../components/AdminDashboard";
 
 // Replace this with your actual main content component
 const MainContent = () => (

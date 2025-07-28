@@ -4,7 +4,7 @@ import SideBar from "../components/User_SideBar";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserRecords } from "../features/recordSlice";
-import { deleteRecord, updateRecord } from "../features/recordSlice";
+import { deleteRecord } from "../features/recordSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -147,7 +147,7 @@ const handleDelete = (id) => {
       </main>
 
       {/* Footer */}
-      <footer className="col-span-2 row-start-3 row-end-4 bg-gray-200 text-center py-4 text-sm text-gray-600">
+      <footer className="col-span-2 row-start-3 row-end-4 text-center text-sm text-gray-600">
         <Footer />
       </footer>
     </div>
