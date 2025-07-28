@@ -1,51 +1,72 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createRecord } from "../features/recordSlice";
-import { useNavigate } from "react-router-dom";
+import { createRecord, updateRecord } from "../features/recordSlice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const red_flag_titles = [
-  "corruption",
-  "theft",
-  "land-grabbing",
-  "mismanagement of resources",
-  "bribery",
-  "embezzlement",
-  "fraud",
-  "other",
+  "Corruption",
+  "Theft",
+  "Land-grabbing",
+  "Mismanagement of resources",
+  "Bribery",
+  "Embezzlement",
+  "Fraud",
+  "Other",
 ];
 
 const intervention_titles = [
-  "repair bad road sections",
-  "collapsed bridges",
-  "flooding",
-  "sewage",
-  "water shortage",
-  "electricity issues",
-  "healthcare facilities",
-  "education facilities",
-  "waste management",
-  "other",
+  "Repair bad road sections",
+  "Collapsed bridges",
+  "Flooding",
+  "Sewage",
+  "Water shortage",
+  "Electricity issues",
+  "Healthcare facilities",
+  "Education facilities",
+  "Waste management",
+  "Other",
 ];
 
 const ReportForm = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const recordToEdit = location.state?.record;
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const [formType, setFormType] = useState("Red-Flag");
   const [useManualLocation, setUseManualLocation] = useState(false);
   const [formData, setFormData] = useState({
-    category: "",
     title: "",
     description: "",
     location: { latitude: "", longitude: "" },
-    priority: "Low",
-    duration: "",
     media: null,
     type: "Red-Flag",
     status: "pending",
   });
+
+  useEffect(() => {
+    if (recordToEdit && recordToEdit.id) {
+      setFormType(
+        recordToEdit.type.toLowerCase() === "red-flag"
+          ? "Red-Flag"
+          : "Intervention"
+      );
+
+      setFormData({
+        title: recordToEdit.title,
+        description: recordToEdit.description,
+        location: {
+          latitude: recordToEdit.location?.latitude || "",
+          longitude: recordToEdit.location?.longitude || "",
+        },
+        media: null,
+        type: recordToEdit.type,
+        status: recordToEdit.status,
+      });
+    }
+  }, [recordToEdit]);
 
   const [showLocationPopup, setShowLocationPopup] = useState(false);
 
@@ -100,7 +121,7 @@ const ReportForm = () => {
     const payload = new FormData();
     payload.append(
       "type",
-      formType === "Red-Flag" ? "Red-Flag" : "Intervention"
+      formType.toLowerCase() === "red-flag" ? "Red-Flag" : "Intervention"
     );
     payload.append("title", formData.title);
     payload.append("description", formData.description);
@@ -110,13 +131,28 @@ const ReportForm = () => {
     if (formData.media) {
       payload.append("images", formData.media);
     }
-
+    // console.log("🧪 Payload Preview:");
+    // for (const [key, val] of payload.entries()) {
+    //   console.log(key, val);
+    // }
+    console.log("The record to edit is:" + recordToEdit);
     try {
-      await dispatch(createRecord(payload)).unwrap();
+      if (recordToEdit) {
+        console.log("I have run");
+        for (const pair of payload.entries()) {
+          console.log(pair[0], pair[1]);
+        }
+        await dispatch(
+          updateRecord({ id: recordToEdit.id, updatedData: payload })
+        ).unwrap();
+      } else {
+        await dispatch(createRecord(payload)).unwrap();
+      }
       navigate("/user_dash");
     } catch (err) {
       console.error("Submit failed:", err);
     }
+    console.log("Form type value:", formType);
   };
 
   return (
@@ -163,34 +199,18 @@ const ReportForm = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
-            {/* Title */}
+
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Report Title
               </label>
-              <input
+              <select
                 name="title"
-                placeholder="Enter a descriptive title"
                 className="w-full border border-slate-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-slate-50/50"
                 onChange={handleChange}
                 value={formData.title}
-                required
-              />
-            </div>
-
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Category
-              </label>
-              <select
-                name="category"
-                className="w-full border border-slate-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-slate-50/50"
-                onChange={handleChange}
-                value={formData.category}
-                required
               >
-                <option value="">Select Category</option>
+                <option value="">Select Report Title</option>
                 {(formType === "Red-Flag"
                   ? red_flag_titles
                   : intervention_titles
@@ -218,7 +238,6 @@ const ReportForm = () => {
                 rows={4}
                 onChange={handleChange}
                 value={formData.description}
-                required
               />
             </div>
 

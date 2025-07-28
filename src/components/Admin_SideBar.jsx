@@ -5,16 +5,17 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+
 const drawerWidth = 200;
 
-export default function SideBar() {
-  const menuItems = [
-    { label: "Dashboard", icon: "🏠", to:"/" },
-    { label: "My Records", icon: "📄", to:"/"},
-    { label: "New Report", icon: "➕", to:"/report"},
-    { label: "Profile", icon: "👤", to:"/"},
-    { label: "Logout", icon: "🚪", to:"/logout"},
+export default function AdminSideBar() {
+  const adminMenuItems = [
+    { label: "Dashboard", icon: "🏠", to: "/admin/dashboard" },
+    { label: "All Reports", icon: "🧾", to: "/admin/reports" },
+    { label: "By Status", icon: "🏷️", to: "/admin/reports/status" },
+    { label: "Settings", icon: "⚙️", to: "/admin/settings" },
+    { label: "Logout", icon: "🚪", to: "/logout" },
   ];
 
   return (
@@ -33,9 +34,8 @@ export default function SideBar() {
       }}
     >
       <Divider />
-
       <List>
-        {menuItems.map((item) => (
+        {adminMenuItems.map((item) => (
           <ListItem key={item.label} disablePadding>
             <ListItemButton component={Link} to={item.to}>
               <span

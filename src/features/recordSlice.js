@@ -34,18 +34,37 @@ export const createRecord = createAsyncThunk(
   }
 );
 
+export const deleteRecord = createAsyncThunk(
+  "records/deleteRecord",
+  async (id) => {
+    await api.delete(`/records/${id}`, authHeaders());
+    return id;
+  }
+);
+
+
 
 export const updateRecord = createAsyncThunk(
   "records/updateRecord",
-  async ({ id, updatedData }) => {
-    const response = await api.put(
-      `/records/${id}`,
-      updatedData,
-      authHeaders()
-    );
-    return response.data;
+  async ({ id, updatedData }, { rejectWithValue }) => {
+    try {
+      const isFormData = updatedData instanceof FormData;
+
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      };
+
+      const response = await api.patch(`/records/${id}`, updatedData, { headers });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Update failed");
+    }
   }
+
 );
+
+
 
 const recordSlice = createSlice({
   name: "records",
@@ -75,6 +94,11 @@ const recordSlice = createSlice({
         state.data.push(action.payload);
       })
 
+      // Delete
+      .addCase(deleteRecord.fulfilled, (state, action) => {
+        state.data = state.data.filter((record) => record.id !== action.payload);
+      })
+
       // Update
       .addCase(updateRecord.fulfilled, (state, action) => {
         const index = state.data.findIndex(
@@ -83,8 +107,56 @@ const recordSlice = createSlice({
         if (index !== -1) {
           state.data[index] = action.payload;
         }
+      })
+      // Admin - Fetch all
+      .addCase(fetchAllRecords.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+
+      // Admin - Patch status
+      .addCase(patchRecordStatus.fulfilled, (state, action) => {
+        const index = state.data.findIndex(
+          (record) => record.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.data[index] = {
+            ...state.data[index],
+            ...action.payload,
+          };
+        }
       });
   },
 });
+
+
+export const fetchAllRecords = createAsyncThunk(
+  "records/fetchAllRecords",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/admin/records", authHeaders());
+      return response.data.records;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Fetch failed");
+    }
+  }
+);
+
+
+export const patchRecordStatus = createAsyncThunk(
+  "records/patchRecordStatus",
+  async ({ id, status }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(
+        `/admin/records/${id}`,
+        { status },
+        authHeaders()
+      );
+      return response.data.record;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Status update failed");
+    }
+  }
+);
+
 
 export default recordSlice.reducer;
