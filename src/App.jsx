@@ -18,7 +18,6 @@ function App() {
       <Toaster position="top-center" />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/admin" element={<AdminDash />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route
@@ -32,9 +31,11 @@ function App() {
         <Route
           path="/admin"
           element={
-            <AdminRoute>
-              <AdminDash />
-            </AdminRoute>
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminDash />
+              </AdminRoute>
+            </ProtectedRoute>
           }
         />
         <Route path="/logout" element={<Logout />} />
