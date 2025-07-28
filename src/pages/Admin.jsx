@@ -1,20 +1,16 @@
 import React from "react";
 import Header from "../components/Header";
-import SideBar from "../components/User_SideBar";
+import SideBar from "../components/Admin_SideBar";
 import Footer from "../components/Footer";
+import AdminDashboard from "./AdminDashboard";
 
 // Replace this with your actual main content component
 const MainContent = () => (
-  <div>
-    <h1 className="text-2xl font-semibold mb-4">
-      Welcome to the Admin Dashboard
-    </h1>
-    <p>Admin Powers are here.</p>
-  </div>
+  <AdminDashboard/>
 );
 
 // Admin dashoard
-const UserDash = () => {
+const AdminDash = () => {
   return (
     <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto] min-h-screen bg-gray-50">
       {/* Header */}
@@ -33,11 +29,11 @@ const UserDash = () => {
       </main>
 
       {/* Footer */}
-      <footer className="col-span-2 row-start-3 row-end-4 bg-gray-200 text-center py-4 text-sm text-gray-600">
+      <footer className="col-span-2 row-start-3 row-end-4 text-center text-sm text-gray-600">
         <Footer />
       </footer>
     </div>
   );
 };
 
-export default UserDash;
+export default AdminDash;
