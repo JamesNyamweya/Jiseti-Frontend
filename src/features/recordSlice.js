@@ -55,7 +55,7 @@ export const updateRecord = createAsyncThunk(
         ...(isFormData ? {} : { "Content-Type": "application/json" }),
       };
 
-      const response = await api.put(`/records/${id}`, updatedData, { headers });
+      const response = await api.patch(`/records/${id}`, updatedData, { headers });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Update failed");
