@@ -7,6 +7,7 @@ import React from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import UserDash from "./pages/UserDash";
+import ReportForm from "./pages/ReportForm"
 import AdminDash from "./pages/Admin";
 import Logout from "./pages/Logout";
 // import CreateRecord from "./components/CreateRecord";
@@ -20,6 +21,14 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/report"
+          element={
+            <ProtectedRoute>
+              <ReportForm />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/user_dash"
           element={
