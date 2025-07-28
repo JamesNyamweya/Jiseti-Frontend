@@ -25,7 +25,7 @@ export default function LoginForm({ onClose, onSwitch }) {
 
       // Close modal and navigate
       onClose?.();
-      navigate("/user_dash");
+      navigate(user.role === "admin" ? "/admin" : "/user_dash");
     } catch (error) {
       toast.error(
         error?.response?.data?.message || "Login failed. Please try again."
