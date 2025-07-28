@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllRecords, patchRecordStatus } from "../features/recordSlice";
 
 const AdminDashboard = () => {
-  const [records, setReports] = useState([]);
+  const dispatch = useDispatch();
+  const { data: records, loading } = useSelector((state) => state.records);
 
   useEffect(() => {
-    const fetchReports = async () => {
-      const dummyReports = [
-        { id: 1, title: "Bug in login", category: "bug" },
-        { id: 2, title: "Feature request: dark mode", category: "feature" },
-      ];
-      setReports(dummyReports);
-    };
-    fetchReports();
-  }, []);
+    dispatch(fetchAllRecords());
+  }, [dispatch]);
+
+  const handleStatus = async (record) => {
+    const newStatus = prompt("Enter new status:", record.status);
+    if (
+      newStatus &&
+      ["pending", "under investigation", "resolved", "rejected"].includes(
+        newStatus
+      )
+    ) {
+      await dispatch(
+        patchRecordStatus({ id: record.id, status: newStatus })
+      ).unwrap();
+    } else {
+      alert("Invalid or no status entered.");
+    }
+  };
 
   const allRecords = records;
   return (
-    <main className="row-start-2 row-end-3 col-start-2 col-end-3 p-6 overflow-auto">
+    <main className="row-start-2 row-end-3 col-start-2 col-end-3 overflow-auto">
       <h1 className="text-2xl font-semibold mb-6">
         Welcome to the Admin Dashboard
       </h1>
@@ -70,7 +82,7 @@ const AdminDashboard = () => {
                     <>
                       <button
                         onClick={() => handleStatus(record)}
-                        className="text-blue-600 hover:underline mr-2"
+                        className="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded"
                       >
                         Edit Status
                       </button>
