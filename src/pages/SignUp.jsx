@@ -36,7 +36,7 @@ export default function SignupForm({ onClose, onSwitch }) {
             };
 
             const res = await axios.post(
-              "http://127.0.0.1:5000/signup",
+              "https://jiseti-backend-nwg1.onrender.com/signup",
               payload
             );
             toast.success("Account created successfully!");

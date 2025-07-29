@@ -13,7 +13,10 @@ export default function LoginForm({ onClose, onSwitch }) {
 
   const handleLogin = async (values, setSubmitting) => {
     try {
-      const response = await axios.post("http://127.0.0.1:5000/login", values);
+      const response = await axios.post(
+        "https://jiseti-backend-nwg1.onrender.com/login",
+        values
+      );
 
       const { access_token, user } = response.data;
 

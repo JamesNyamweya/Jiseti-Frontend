@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Axios instance with base URL
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://jiseti-backend-nwg1.onrender.com",
 });
 
 // Attach token from localStorage
