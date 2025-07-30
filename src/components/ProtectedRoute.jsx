@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useLoginModal } from "../contexts/LoginModalContext";
+import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const { user, token } = useSelector((state) => state.auth);
+  const { openLogin, setOnCloseRedirect } = useLoginModal();
+  const hasWarned = useRef(false); 
+  const navigate = useNavigate();
 
-  // Redirect if not logged in
+  useEffect(() => {
+    if ((!user || !token) && !hasWarned.current) {
+      toast.error("You must be logged in to access this page.");
+      openLogin();
+      setOnCloseRedirect(() => () => navigate("/"));
+      hasWarned.current = true;
+    }
+  }, [user, token, openLogin, navigate, setOnCloseRedirect]);
+
   if (!user || !token) {
-    return <Navigate to="/login" replace />;
+    return null; 
   }
 
   return children;

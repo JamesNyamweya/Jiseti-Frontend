@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import AuthModalController from "./AuthModalController";
 import { useSelector } from "react-redux";
+import { useLoginModal } from "../contexts/LoginModalContext";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
-  const [showLogin, setShowLogin] = useState(false);
+  const { openLogin } = useLoginModal();
 
   return (
     <>
@@ -50,14 +51,14 @@ const Header = () => {
             {user ? (
               <Link
                 to="/logout"
-                className="hover:text-gray-300 px-3 py-2 rounded"
+                className="hover:text-gray-300 px-3 py-2 rounded hover:cursor-pointer"
               >
                 Logout
               </Link>
             ) : (
               <button
-                onClick={() => setShowLogin(true)}
-                className="hover:text-gray-300 px-3 py-2 rounded"
+                onClick={() => openLogin()}
+                className="hover:text-gray-300 px-3 py-2 rounded hover:cursor-pointer"
               >
                 Login
               </button>
@@ -65,13 +66,8 @@ const Header = () => {
           </nav>
         </div>
       </header>
-
-      {showLogin && <AuthModalController onClose={() => setShowLogin(false)} />}
     </>
   );
 };
-
-
-
 
 export default Header;
