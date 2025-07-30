@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createRecord, updateRecord } from "../features/recordSlice";
 import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const red_flag_titles = [
   "Corruption",
@@ -37,6 +38,7 @@ const ReportForm = () => {
   const user = useSelector((state) => state.auth.user);
   const [formType, setFormType] = useState("Red-Flag");
   const [useManualLocation, setUseManualLocation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -118,6 +120,7 @@ const ReportForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const payload = new FormData();
     payload.append(
       "type",
@@ -131,27 +134,29 @@ const ReportForm = () => {
     if (formData.media) {
       payload.append("images", formData.media);
     }
-    // console.log("🧪 Payload Preview:");
-    // for (const [key, val] of payload.entries()) {
-    //   console.log(key, val);
-    // }
-    console.log("The record to edit is:" + recordToEdit);
-    try {
+    const submissionPromise = async () => {
       if (recordToEdit) {
-        console.log("I have run");
-        for (const pair of payload.entries()) {
-          console.log(pair[0], pair[1]);
-        }
         await dispatch(
           updateRecord({ id: recordToEdit.id, updatedData: payload })
         ).unwrap();
       } else {
         await dispatch(createRecord(payload)).unwrap();
       }
+    };
+
+    try {
+      await toast.promise(submissionPromise(), {
+        loading: "Submitting report...",
+        success: "Report submitted successfully!",
+        error: "Failed to submit report. Try again.",
+      });
       navigate("/user_dash");
     } catch (err) {
       console.error("Submit failed:", err);
+    } finally {
+      setIsSubmitting(false);
     }
+
     console.log("Form type value:", formType);
   };
 
@@ -301,9 +306,7 @@ const ReportForm = () => {
                   className="w-full text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   onChange={handleMediaUpload}
                 />
-                <p className="text-xs text-slate-500 mt-2">
-                  Upload an image
-                </p>
+                <p className="text-xs text-slate-500 mt-2">Upload an image</p>
               </div>
             </div>
 
@@ -316,11 +319,35 @@ const ReportForm = () => {
               >
                 ← Cancel
               </button>
+
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r hover:cursor-pointer from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r hover:cursor-pointer from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                disabled={isSubmitting}
               >
-                ✅ Submit Report
+                {isSubmitting && (
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                )}
+                {isSubmitting ? "Submitting..." : "✅ Submit Report"}
               </button>
             </div>
           </form>
