@@ -174,7 +174,7 @@ const ReportForm = () => {
             <div className="flex justify-center space-x-4">
               <button
                 onClick={() => setFormType("Red-Flag")}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                className={`flex items-center hover:cursor-pointer space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   formType === "Red-Flag"
                     ? "bg-rose-100 text-rose-700 shadow-md ring-2 ring-rose-200"
                     : "text-slate-600 hover:bg-white hover:shadow-sm"
@@ -185,7 +185,7 @@ const ReportForm = () => {
               </button>
               <button
                 onClick={() => setFormType("Intervention")}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                className={`flex items-center hover:cursor-pointer space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   formType === "Intervention"
                     ? "bg-emerald-100 text-emerald-700 shadow-md ring-2 ring-emerald-200"
                     : "text-slate-600 hover:bg-white hover:shadow-sm"
@@ -199,7 +199,6 @@ const ReportForm = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
-
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Report Title
@@ -249,14 +248,14 @@ const ReportForm = () => {
               <div className="flex gap-3 mb-4">
                 <button
                   type="button"
-                  className="flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+                  className="flex-1 px-4 py-3 hover:cursor-pointer rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 shadow-sm"
                   onClick={handleUseLocation}
                 >
                   📍 Use Live Location
                 </button>
                 <button
                   type="button"
-                  className="flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-slate-600 text-white hover:bg-slate-700 transition-colors duration-200 shadow-sm"
+                  className="flex-1 px-4 py-3 hover:cursor-pointer rounded-xl text-sm font-medium bg-slate-600 text-white hover:bg-slate-700 transition-colors duration-200 shadow-sm"
                   onClick={() => setUseManualLocation(true)}
                 >
                   ✏️ Enter Manually
@@ -293,17 +292,17 @@ const ReportForm = () => {
             {/* Media */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Media (Image/Video)
+                Media (Image)
               </label>
               <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-blue-400 transition-colors duration-200">
                 <input
                   type="file"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   className="w-full text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   onChange={handleMediaUpload}
                 />
                 <p className="text-xs text-slate-500 mt-2">
-                  Upload images or videos as evidence
+                  Upload an image
                 </p>
               </div>
             </div>
@@ -313,13 +312,13 @@ const ReportForm = () => {
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="flex-1 bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200 shadow-sm"
+                className="flex-1 bg-slate-200 hover:cursor-pointer text-slate-700 px-6 py-3 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200 shadow-sm"
               >
                 ← Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                className="flex-1 bg-gradient-to-r hover:cursor-pointer from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
               >
                 ✅ Submit Report
               </button>
@@ -346,19 +345,19 @@ const ReportForm = () => {
               <div className="space-y-3">
                 <button
                   onClick={() => handleLocationPermission("allow")}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-700 transition-colors duration-200"
+                  className="w-full bg-blue-600 hover:cursor-pointer text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-700 transition-colors duration-200"
                 >
                   Allow Now
                 </button>
                 <button
                   onClick={() => handleLocationPermission("allow")}
-                  className="w-full bg-blue-100 text-blue-700 py-3 px-4 rounded-xl font-medium hover:bg-blue-200 transition-colors duration-200"
+                  className="w-full bg-blue-100 text-blue-700 py-3 px-4 rounded-xl font-medium hover:bg-blue-200 hover:cursor-pointer transition-colors duration-200"
                 >
                   Allow When in App
                 </button>
                 <button
                   onClick={() => handleLocationPermission("deny")}
-                  className="w-full bg-slate-200 text-slate-700 py-3 px-4 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200"
+                  className="w-full hover:cursor-pointer bg-slate-200 text-slate-700 py-3 px-4 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200"
                 >
                   Don't Allow
                 </button>
@@ -366,7 +365,7 @@ const ReportForm = () => {
 
               <button
                 onClick={() => setShowLocationPopup(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+                className="absolute top-4 right-4 hover:cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <svg
                   className="w-6 h-6"
