@@ -1,12 +1,24 @@
-import React, { useState } from "react";
-import AuthModalController from "./AuthModalController";
 import { useSelector } from "react-redux";
 import { useLoginModal } from "../contexts/LoginModalContext";
 import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
   const { openLogin } = useLoginModal();
+  const location = useLocation(); 
+  const navigate = useNavigate(); 
+
+  const handleHomeClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/", { replace: false }); 
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100); 
+    }
+  };
 
   return (
     <>
@@ -21,9 +33,12 @@ const Header = () => {
           </Link>
 
           <nav className="hidden space-x-6 md:flex">
-            <Link to="/" className="hover:text-gray-300 px-3 py-2 rounded">
+            <span
+              onClick={handleHomeClick}
+              className="hover:text-gray-300 px-3 py-2 rounded cursor-pointer"
+            >
               Home
-            </Link>
+            </span>
 
             <Link
               to="/#about_us"
