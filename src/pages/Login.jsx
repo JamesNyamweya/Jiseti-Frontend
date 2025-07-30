@@ -83,7 +83,7 @@ export default function LoginForm({ onClose, onSwitch }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-blue-600 text-white py-2 rounded"
+              className="w-full hover:cursor-pointer bg-blue-600 text-white py-2 rounded"
             >
               {isSubmitting ? "Logging in..." : "Login"}
             </button>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createRecord, updateRecord } from "../features/recordSlice";
 import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const red_flag_titles = [
   "Corruption",
@@ -37,6 +38,7 @@ const ReportForm = () => {
   const user = useSelector((state) => state.auth.user);
   const [formType, setFormType] = useState("Red-Flag");
   const [useManualLocation, setUseManualLocation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -118,6 +120,7 @@ const ReportForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const payload = new FormData();
     payload.append(
       "type",
@@ -131,27 +134,29 @@ const ReportForm = () => {
     if (formData.media) {
       payload.append("images", formData.media);
     }
-    // console.log("🧪 Payload Preview:");
-    // for (const [key, val] of payload.entries()) {
-    //   console.log(key, val);
-    // }
-    console.log("The record to edit is:" + recordToEdit);
-    try {
+    const submissionPromise = async () => {
       if (recordToEdit) {
-        console.log("I have run");
-        for (const pair of payload.entries()) {
-          console.log(pair[0], pair[1]);
-        }
         await dispatch(
           updateRecord({ id: recordToEdit.id, updatedData: payload })
         ).unwrap();
       } else {
         await dispatch(createRecord(payload)).unwrap();
       }
+    };
+
+    try {
+      await toast.promise(submissionPromise(), {
+        loading: "Submitting report...",
+        success: "Report submitted successfully!",
+        error: "Failed to submit report. Try again.",
+      });
       navigate("/user_dash");
     } catch (err) {
       console.error("Submit failed:", err);
+    } finally {
+      setIsSubmitting(false);
     }
+
     console.log("Form type value:", formType);
   };
 
@@ -174,7 +179,7 @@ const ReportForm = () => {
             <div className="flex justify-center space-x-4">
               <button
                 onClick={() => setFormType("Red-Flag")}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                className={`flex items-center hover:cursor-pointer space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   formType === "Red-Flag"
                     ? "bg-rose-100 text-rose-700 shadow-md ring-2 ring-rose-200"
                     : "text-slate-600 hover:bg-white hover:shadow-sm"
@@ -185,7 +190,7 @@ const ReportForm = () => {
               </button>
               <button
                 onClick={() => setFormType("Intervention")}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                className={`flex items-center hover:cursor-pointer space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   formType === "Intervention"
                     ? "bg-emerald-100 text-emerald-700 shadow-md ring-2 ring-emerald-200"
                     : "text-slate-600 hover:bg-white hover:shadow-sm"
@@ -199,7 +204,6 @@ const ReportForm = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
-
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Report Title
@@ -249,14 +253,14 @@ const ReportForm = () => {
               <div className="flex gap-3 mb-4">
                 <button
                   type="button"
-                  className="flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+                  className="flex-1 px-4 py-3 hover:cursor-pointer rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 shadow-sm"
                   onClick={handleUseLocation}
                 >
                   📍 Use Live Location
                 </button>
                 <button
                   type="button"
-                  className="flex-1 px-4 py-3 rounded-xl text-sm font-medium bg-slate-600 text-white hover:bg-slate-700 transition-colors duration-200 shadow-sm"
+                  className="flex-1 px-4 py-3 hover:cursor-pointer rounded-xl text-sm font-medium bg-slate-600 text-white hover:bg-slate-700 transition-colors duration-200 shadow-sm"
                   onClick={() => setUseManualLocation(true)}
                 >
                   ✏️ Enter Manually
@@ -293,18 +297,16 @@ const ReportForm = () => {
             {/* Media */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Media (Image/Video)
+                Media (Image)
               </label>
               <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-blue-400 transition-colors duration-200">
                 <input
                   type="file"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   className="w-full text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   onChange={handleMediaUpload}
                 />
-                <p className="text-xs text-slate-500 mt-2">
-                  Upload images or videos as evidence
-                </p>
+                <p className="text-xs text-slate-500 mt-2">Upload an image</p>
               </div>
             </div>
 
@@ -313,15 +315,39 @@ const ReportForm = () => {
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="flex-1 bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200 shadow-sm"
+                className="flex-1 bg-slate-200 hover:cursor-pointer text-slate-700 px-6 py-3 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200 shadow-sm"
               >
                 ← Cancel
               </button>
+
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r hover:cursor-pointer from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                disabled={isSubmitting}
               >
-                ✅ Submit Report
+                {isSubmitting && (
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                )}
+                {isSubmitting ? "Submitting..." : "✅ Submit Report"}
               </button>
             </div>
           </form>
@@ -346,19 +372,19 @@ const ReportForm = () => {
               <div className="space-y-3">
                 <button
                   onClick={() => handleLocationPermission("allow")}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-700 transition-colors duration-200"
+                  className="w-full bg-blue-600 hover:cursor-pointer text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-700 transition-colors duration-200"
                 >
                   Allow Now
                 </button>
                 <button
                   onClick={() => handleLocationPermission("allow")}
-                  className="w-full bg-blue-100 text-blue-700 py-3 px-4 rounded-xl font-medium hover:bg-blue-200 transition-colors duration-200"
+                  className="w-full bg-blue-100 text-blue-700 py-3 px-4 rounded-xl font-medium hover:bg-blue-200 hover:cursor-pointer transition-colors duration-200"
                 >
                   Allow When in App
                 </button>
                 <button
                   onClick={() => handleLocationPermission("deny")}
-                  className="w-full bg-slate-200 text-slate-700 py-3 px-4 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200"
+                  className="w-full hover:cursor-pointer bg-slate-200 text-slate-700 py-3 px-4 rounded-xl font-medium hover:bg-slate-300 transition-colors duration-200"
                 >
                   Don't Allow
                 </button>
@@ -366,7 +392,7 @@ const ReportForm = () => {
 
               <button
                 onClick={() => setShowLocationPopup(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+                className="absolute top-4 right-4 hover:cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <svg
                   className="w-6 h-6"

@@ -7,49 +7,66 @@ import React from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import UserDash from "./pages/UserDash";
-import ReportForm from "./pages/ReportForm"
+import ReportForm from "./pages/ReportForm";
 import AdminDash from "./pages/Admin";
 import Logout from "./pages/Logout";
+import { LoginModalProvider, useLoginModal } from "./contexts/LoginModalContext";
 // import CreateRecord from "./components/CreateRecord";
 // import EditRecord from "./components/EditRecord";
 
+function AuthModalContainer() {
+  const { isOpen, handleClose, mode, setMode } = useLoginModal();
+
+  if (!isOpen) return null;
+
+  const onSwitch = () => setMode(mode === "login" ? "signup" : "login");
+
+  return mode === "login" ? (
+    <Login onClose={handleClose} onSwitch={onSwitch} />
+  ) : (
+    <Signup onClose={handleClose} onSwitch={onSwitch} />
+  );
+}
+
+
 function App() {
   return (
-    <Router>
-      <Toaster position="top-center" />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/report"
-          element={
-            <ProtectedRoute>
-              <ReportForm />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user_dash"
-          element={
-            <ProtectedRoute>
-              <UserDash />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminRoute>
-                <AdminDash />
-              </AdminRoute>
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/logout" element={<Logout />} />
-      </Routes>
-    </Router>
+    <LoginModalProvider>
+      <Router>
+        <Toaster position="top-center" />
+        <AuthModalContainer/>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/report"
+            element={
+              <ProtectedRoute>
+                <ReportForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user_dash"
+            element={
+              <ProtectedRoute>
+                <UserDash />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminRoute>
+                  <AdminDash />
+                </AdminRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/logout" element={<Logout />} />
+        </Routes>
+      </Router>
+    </LoginModalProvider>
   );
 }
 

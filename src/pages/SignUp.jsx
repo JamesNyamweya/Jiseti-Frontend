@@ -106,7 +106,7 @@ export default function SignupForm({ onClose, onSwitch }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-blue-600 text-white py-2 rounded"
+              className="w-full hover:cursor-pointer bg-blue-600 text-white py-2 rounded"
             >
               Sign Up
             </button>
