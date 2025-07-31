@@ -89,7 +89,10 @@ const AdminDashboard = () => {
                 <td className="px-4 py-2 border text-center">
                   {record.status !== "resolved" && (
                     <button
-                      onClick={() => setSelectedRecord(record)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedRecord(record);
+                      }}
                       className="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded"
                     >
                       Edit Status
