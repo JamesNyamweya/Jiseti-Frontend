@@ -11,10 +11,7 @@ const drawerWidth = 200;
 
 export default function AdminSideBar() {
   const adminMenuItems = [
-    { label: "Dashboard", icon: "🏠", to: "/admin/dashboard" },
-    { label: "All Reports", icon: "🧾", to: "/admin/reports" },
-    { label: "By Status", icon: "🏷️", to: "/admin/reports/status" },
-    { label: "Settings", icon: "⚙️", to: "/admin/settings" },
+    { label: "Dashboard", icon: "🏠", to: "/admin" },
     { label: "Logout", icon: "🚪", to: "/logout" },
   ];
 

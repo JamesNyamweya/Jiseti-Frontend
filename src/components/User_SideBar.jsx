@@ -10,10 +10,9 @@ const drawerWidth = 200;
 
 export default function SideBar() {
   const menuItems = [
-    { label: "Dashboard", icon: "🏠", to:"/" },
-    { label: "My Records", icon: "📄", to:"/"},
+    { label: "Dashboard", icon: "🏠", to:"/user_dash" },
     { label: "New Report", icon: "➕", to:"/report"},
-    { label: "Profile", icon: "👤", to:"/"},
+    { label: "Profile", icon: "👤", to:"/profile"},
     { label: "Logout", icon: "🚪", to:"/logout"},
   ];
 
