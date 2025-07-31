@@ -11,6 +11,7 @@ import ReportForm from "./pages/ReportForm";
 import AdminDash from "./pages/Admin";
 import Logout from "./pages/Logout";
 import { LoginModalProvider, useLoginModal } from "./contexts/LoginModalContext";
+import UserProfile from "./components/UserProfile";
 // import CreateRecord from "./components/CreateRecord";
 // import EditRecord from "./components/EditRecord";
 
@@ -34,7 +35,7 @@ function App() {
     <LoginModalProvider>
       <Router>
         <Toaster position="top-center" />
-        <AuthModalContainer/>
+        <AuthModalContainer />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route
@@ -47,6 +48,14 @@ function App() {
           />
           <Route
             path="/user_dash"
+            element={
+              <ProtectedRoute>
+                <UserDash />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
             element={
               <ProtectedRoute>
                 <UserDash />
