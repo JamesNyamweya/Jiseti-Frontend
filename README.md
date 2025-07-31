@@ -29,3 +29,6 @@ Jiseti is a civic-tech platform built to fight corruption and promote transparen
 3. **Collins Kiprono**
 4. **Jerald Nyaga**
 5. **James Nyamweya**
+
+## Link
+https://jiseti-frontend-kgib.onrender.com/
