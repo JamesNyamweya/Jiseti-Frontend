@@ -58,7 +58,7 @@ function App() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <UserDash />
+                <UserProfile />
               </ProtectedRoute>
             }
           />
