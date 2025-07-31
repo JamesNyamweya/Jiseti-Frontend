@@ -12,6 +12,7 @@ import AdminDash from "./pages/Admin";
 import Logout from "./pages/Logout";
 import { LoginModalProvider, useLoginModal } from "./contexts/LoginModalContext";
 import UserProfile from "./components/UserProfile";
+import IncidentDetail from "./components/IncidentDetail";
 // import CreateRecord from "./components/CreateRecord";
 // import EditRecord from "./components/EditRecord";
 
@@ -59,6 +60,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/incidents/:id"
+            element={
+              <ProtectedRoute>
+                <IncidentDetail />
               </ProtectedRoute>
             }
           />

@@ -15,6 +15,18 @@ const authHeaders = () => {
     },
   };
 };
+export const fetchSingleRecord = createAsyncThunk(
+  "records/fetchSingleRecord",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/records/${id}`, authHeaders());
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Could not fetch record");
+    }
+  }
+);
+
 
 // Fetch user records
 export const fetchUserRecords = createAsyncThunk(
@@ -72,6 +84,7 @@ const recordSlice = createSlice({
     data: [],
     loading: false,
     error: null,
+    singleRecord: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -107,6 +120,18 @@ const recordSlice = createSlice({
         if (index !== -1) {
           state.data[index] = action.payload;
         }
+      })
+      .addCase(fetchSingleRecord.pending, (state) => {
+        state.loading = true;
+        state.singleRecord = null;
+      })
+      .addCase(fetchSingleRecord.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleRecord = action.payload;
+      })
+      .addCase(fetchSingleRecord.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
       })
       // Admin - Fetch all
       .addCase(fetchAllRecords.fulfilled, (state, action) => {

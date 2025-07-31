@@ -26,7 +26,7 @@ const Header = () => {
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3">
           <Link to="/" className="text-xl font-bold">
             <img
-              src="src/assets/Jiseti_logo.png"
+              src="/src/assets/Jiseti_logo.png"
               alt="Jiseti"
               className="h-[30px]"
             />

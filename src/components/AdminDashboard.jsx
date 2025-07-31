@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllRecords, patchRecordStatus } from "../features/recordSlice";
 import EditStatusForm from "./EditStatusForm";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 
 const AdminDashboard = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { data: records, loading } = useSelector((state) => state.records);
 
@@ -30,8 +33,6 @@ const AdminDashboard = () => {
 
   return (
     <main className="row-start-2 row-end-3 col-start-2 col-end-3 overflow-auto">
-
-
       <h1 className="text-2xl font-semibold mb-6">
         Welcome to the Admin Dashboard
       </h1>
@@ -75,7 +76,11 @@ const AdminDashboard = () => {
           </thead>
           <tbody>
             {allRecords.map((record, index) => (
-              <tr key={record.id}>
+              <tr
+                key={record.id}
+                onClick={() => navigate(`/incidents/${record.id}`)}
+                className="cursor-pointer hover:bg-gray-100"
+              >
                 <td className="px-4 py-2 border">{index + 1}</td>
                 <td className="px-4 py-2 border">{record.user_id}</td>
                 <td className="px-4 py-2 border">{record.type}</td>
